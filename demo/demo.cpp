@@ -38,9 +38,9 @@ int main()
 
   testVocCreation(features); // 测试训练出来的字典，并保存该字典
 
-  wait();
+  // wait();
 
-  testDatabase(features); // 测试数据集
+  // testDatabase(features); // 测试数据集
 
   return 0;
 }
@@ -86,8 +86,8 @@ void changeStructure(const cv::Mat &plain, vector<cv::Mat> &out)
 void testVocCreation(const vector<vector<cv::Mat > > &features)
 {
   // branching factor and depth levels 
-  const int k = 9;
-  const int L = 3;
+  const int k = 10;
+  const int L = 6; // k=10, L=6是ORB_SLAM2中字典的大小
   const WeightingType weight = TF_IDF;
   const ScoringType score = L1_NORM;
 
@@ -100,30 +100,30 @@ void testVocCreation(const vector<vector<cv::Mat > > &features)
    */
   OrbVocabulary voc(k, L, weight, score);
 
-  cout << "Creating a small " << k << "^" << L << " vocabulary..." << endl;
+  cout << "Creating a " << k << "^" << L << " vocabulary..." << endl;
   voc.create(features);
-  cout << "... done!" << endl;
+  cout << "Done" << endl;
 
-  cout << "Vocabulary information: " << endl
-  << voc << endl << endl;
+  cout << "Vocabulary information: " << endl << voc << endl << endl;
 
-  // let‘s do something with this vocabulary
-  cout << "Matching images against themselves (0 low, 1 high): " << endl;
-  BowVector v1, v2;
-  for(int i = 0; i < NIMAGES; i++)
-  {
-    voc.transform(features[i], v1);
-    for(int j = 0; j < NIMAGES; j++)
-    {
-      voc.transform(features[j], v2);
+  // // 用于测试字典的分类特性，若只生成字典则不需要执行这一步，否则会非常耗费时间
+  // // let‘s do something with this vocabulary
+  // cout << "Matching images against themselves (0 low, 1 high): " << endl;
+  // BowVector v1, v2;
+  // for(int i = 0; i < NIMAGES; i++)
+  // {
+  //   voc.transform(features[i], v1);
+  //   for(int j = 0; j < NIMAGES; j++)
+  //   {
+  //     voc.transform(features[j], v2);
       
-      double score = voc.score(v1, v2);
-      cout << "Image " << i << " vs Image " << j << ": " << score << endl;
-    }
-  }
+  //     double score = voc.score(v1, v2);
+  //     cout << "Image " << i << " vs Image " << j << ": " << score << endl;
+  //   }
+  // }
 
   cout << endl << "Saving vocabulary..." << endl;
-  voc.save("small_voc.yml.gz");
+  voc.save("Vocabulary.yml.gz");
   cout << "Done" << endl;
 }
 
