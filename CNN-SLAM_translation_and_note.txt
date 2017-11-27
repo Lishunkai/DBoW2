@@ -1,0 +1,10 @@
+             CNN-SLAM:实时稠密单目SLAM及深度估计
+【摘要】
+	鉴于最近深度卷积神经网络(CNN)在深度估计方面的研究有不错的进展，这篇论文研究如何用CNN和单目相机重建出准确且稠密的三维场景。我们提出了一个方法，它可让CNN预测的稠密深度地图与单目SLAM估计的深度图自然融合。该方法在单目SLAM失效的时候（如低纹理区域）仍然能够很好地工作。我们展示了用深度预测来估计重建三维场景的绝对尺度，以解决单目SLAM无法得到绝对尺度这一主要缺陷。最后，我们提出了一个框架，它可将单幅图像中提取的语义标签和稠密SLAM高效地融合在一起，达到从单视角语义一致性地重建场景的效果。在两个数据集上的测试表明我们提出的算法有很高的准确性和很强的鲁棒性。
+
+
+Migration:
+Switching code to OpenCV3 can be done following the official guide at http://docs.opencv.org/master/db/dfa/tutorial_transition_guide.html. 
+
+【引言-部分内容】
+	
