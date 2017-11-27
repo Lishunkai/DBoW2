@@ -14,4 +14,4 @@ Switching code to OpenCV3 can be done following the official guide at http://doc
 		4.单目SLAM无法在纯旋转情况下工作，因为此时的stereo-baseline丢失，无法进行立体估计。
 	近来，通过机器学习方法基于单幅图像估计场景深度的研究取得了新进展。其中，深度卷积神经网络(CNN)表现出色。其优点是可以得到高分辨的、绝对尺度的深度估计图，甚至在特征点稀疏或repetitive patterns的情况下也表现出色。由于场景的绝对深度可以通过样本训练学习得到，因此不需要基于场景的模型假设，也不需要几何上的约束。然而，此方法的缺陷是虽然深度预测在全局上是准确的，但在深度图中物体的边界处是局部模糊的，这样会丧失物体深度、形状的细节信息。
 	我们提出该方法的主要思想是：将深度估计和单目SLAM结合。为了解决深度图中的模糊边缘问题(blurred depth borders)，我们将CNN预测的深度图作为稠密重建的初始猜测(initial guess)，并连续地通过直接法SLAM来优化（依靠small-baseline stereo matching，该方法和参考文献【4】的LSD-SLAM相似，LSD-SLAM是典型的直接法)。非常重要的一点是，small-baseline stereo matching拥有可以改善边缘区域深度估计的潜力。与此同时，CNN预测的深度图有绝对尺度，可为位姿估计提供更多约束条件，显著提高了位姿估计、路径和重建场景的精度。而且由于本方法可克服纯旋转等恶劣情况，因此tracking的稳定性大大增强。另外，该框架可在PC上实时运行，CPU和GPU同时运算，用GPU来执行CNN的深度估计，用CPU来执行深度优化。
-	除可用于深度估计之外，CNN还可成功地用于其他高维回归(high-dimension regression)的任务，其中一个典型的例子就是语义分割(semantic segmentation)。我们基于这种方法提出了CNN-SLAM的扩展版本，即用pixel-wise labels将语义labels和稠密SLAM准确一致且高效率地融合在一起。
+	除可用于深度估计之外，CNN还可成功地用于其他高维回归(high-dimension regression)的任务，其中一个典型的例子就是语义分割(semantic segmentation)。我们基于这种方法提出了CNN-SLAM的扩展版本，即用pixel-wise labels将语义labels和稠密SLAM准确一致且高效率地融合在一起。所以。
