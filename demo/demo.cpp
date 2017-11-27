@@ -5,7 +5,6 @@
  * Description: demo application of DBoW2
  * License: see the LICENSE.txt file
  */
-
 #include <iostream>
 #include <vector>
 
@@ -19,7 +18,6 @@
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/features2d.hpp>
-
 
 using namespace DBoW2;
 using namespace DUtils;
@@ -54,7 +52,7 @@ void loadFeatures(vector<vector<cv::Mat > > &features)
   features.reserve(NIMAGES);
 
   cv::Ptr<cv::ORB> orb = cv::ORB::create(); // opencv3.1及以上版本的写法
-  cv::ORB orb(500); // opencv 2.4.8版本的写法
+  // cv::ORB orb(500); // opencv 2.4.8版本的写法
                     // 其余参数均为默认值
 
   cout << "Extracting ORB features..." << endl;
@@ -69,8 +67,8 @@ void loadFeatures(vector<vector<cv::Mat > > &features)
     cv::Mat descriptors;
 
     orb->detectAndCompute(image, mask, keypoints, descriptors); // opencv3.1及以上版本的写法
-    orb.detect(image, keypoints); // opencv 2.4.8版本的写法
-    orb.compute(image, keypoints, descriptors); // opencv 2.4.8版本的写法
+    // orb.detect(image, keypoints); // opencv 2.4.8版本的写法
+    // orb.compute(image, keypoints, descriptors); // opencv 2.4.8版本的写法
 
     features.push_back(vector<cv::Mat >());
     changeStructure(descriptors, features.back());
