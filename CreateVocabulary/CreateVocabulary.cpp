@@ -114,6 +114,10 @@ void loadFeatures(vector<vector<cv::Mat > > &features)
 
     features.push_back(vector<cv::Mat >());
     changeStructure(descriptors, features.back());
+
+    cout << "Processing " << i << "/" <<NIMAGES << '\r';
+    fflush(stdout); // 记住用fflush，不然输出会缓冲，会积压在一起
+                    // 平时的endl除了有换行功能之外，另一个很重要的功能就是更新数据流，防止缓冲积压
   }
   
   cout << "ORB features loaded." << endl << endl;
