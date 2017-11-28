@@ -98,7 +98,7 @@ void loadFeatures(vector<vector<cv::Mat > > &features)
   // cv::ORB orb(500); // opencv 2.4.8版本的写法
                        // 其余参数均为默认值
 
-  cout << "Extracting ORB features..." << endl;
+  cout << "Extracting ORB features. This may take a long time." << endl;
   for(int i = 1; i <= NIMAGES; ++i)
   {
     string ss=ReadLine(i);

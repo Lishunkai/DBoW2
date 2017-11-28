@@ -14,7 +14,8 @@ char ImageList[256];
 int main()
 {
   NIMAGES = LoadImageList();
-  NormalizeImageList();
+
+  NormalizeImageList(); // 规范化输入图片的路径列表
 
   return 0;
 }
@@ -60,21 +61,19 @@ void NormalizeImageList()
     for(int i=1;i<=NIMAGES;++i)
     {
         string ss = ReadLine(i);
-        string cp;
-        for(int j = 0;j < sizeof(ss);j++)
-        {
-            if(ss[j] == ' ')
-                break;
-            else
-                cp[j] = ss[j];
-        }
-        Normalized << HeadPath << cp << '\n';
+
+        // 找到空格并删除该行空格之后所有的内容
+        int pos = ss.find(" ");
+        int length = sizeof(ss) - pos;
+        ss.erase(pos,length);
+        // 注：这里删除、更新的操作不能用string类按下标赋值的方法，那样会出错，无法赋值
+        
+        Normalized << HeadPath << ss << '\n'; // 更新每行的内容
     }
     Normalized.close();
     
     cout << "The normalized image list is saved to: /DBoW2/build/" << endl << endl;
 }
-
 
 // 函数功能：读取txt文件中的某一行
 string ReadLine(int line)
@@ -83,8 +82,8 @@ string ReadLine(int line)
     string temp;
     fstream file;  
     file.open(ImageList,ios::in);  
-    while(getline(file,temp)&&i<line-1)
+    while(getline(file,temp) && i<line-1)
         i++;
     file.close();  
-    return temp;  
+    return temp;
 }
