@@ -140,6 +140,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named CreateVocabulary
+
+# Build rule for target.
+CreateVocabulary: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 CreateVocabulary
+.PHONY : CreateVocabulary
+
+# fast build rule for target.
+CreateVocabulary/fast:
+	$(MAKE) -f CMakeFiles/CreateVocabulary.dir/build.make CMakeFiles/CreateVocabulary.dir/build
+.PHONY : CreateVocabulary/fast
+
+#=============================================================================
 # Target rules for targets named DBoW2
 
 # Build rule for target.
@@ -166,6 +179,19 @@ Dependencies/fast:
 .PHONY : Dependencies/fast
 
 #=============================================================================
+# Target rules for targets named NormalizeImageList
+
+# Build rule for target.
+NormalizeImageList: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 NormalizeImageList
+.PHONY : NormalizeImageList
+
+# fast build rule for target.
+NormalizeImageList/fast:
+	$(MAKE) -f CMakeFiles/NormalizeImageList.dir/build.make CMakeFiles/NormalizeImageList.dir/build
+.PHONY : NormalizeImageList/fast
+
+#=============================================================================
 # Target rules for targets named demo
 
 # Build rule for target.
@@ -177,6 +203,54 @@ demo: cmake_check_build_system
 demo/fast:
 	$(MAKE) -f CMakeFiles/demo.dir/build.make CMakeFiles/demo.dir/build
 .PHONY : demo/fast
+
+CreateVocabulary/CreateVocabulary.o: CreateVocabulary/CreateVocabulary.cpp.o
+.PHONY : CreateVocabulary/CreateVocabulary.o
+
+# target to build an object file
+CreateVocabulary/CreateVocabulary.cpp.o:
+	$(MAKE) -f CMakeFiles/CreateVocabulary.dir/build.make CMakeFiles/CreateVocabulary.dir/CreateVocabulary/CreateVocabulary.cpp.o
+.PHONY : CreateVocabulary/CreateVocabulary.cpp.o
+
+CreateVocabulary/CreateVocabulary.i: CreateVocabulary/CreateVocabulary.cpp.i
+.PHONY : CreateVocabulary/CreateVocabulary.i
+
+# target to preprocess a source file
+CreateVocabulary/CreateVocabulary.cpp.i:
+	$(MAKE) -f CMakeFiles/CreateVocabulary.dir/build.make CMakeFiles/CreateVocabulary.dir/CreateVocabulary/CreateVocabulary.cpp.i
+.PHONY : CreateVocabulary/CreateVocabulary.cpp.i
+
+CreateVocabulary/CreateVocabulary.s: CreateVocabulary/CreateVocabulary.cpp.s
+.PHONY : CreateVocabulary/CreateVocabulary.s
+
+# target to generate assembly for a file
+CreateVocabulary/CreateVocabulary.cpp.s:
+	$(MAKE) -f CMakeFiles/CreateVocabulary.dir/build.make CMakeFiles/CreateVocabulary.dir/CreateVocabulary/CreateVocabulary.cpp.s
+.PHONY : CreateVocabulary/CreateVocabulary.cpp.s
+
+CreateVocabulary/NormalizeImageList.o: CreateVocabulary/NormalizeImageList.cpp.o
+.PHONY : CreateVocabulary/NormalizeImageList.o
+
+# target to build an object file
+CreateVocabulary/NormalizeImageList.cpp.o:
+	$(MAKE) -f CMakeFiles/NormalizeImageList.dir/build.make CMakeFiles/NormalizeImageList.dir/CreateVocabulary/NormalizeImageList.cpp.o
+.PHONY : CreateVocabulary/NormalizeImageList.cpp.o
+
+CreateVocabulary/NormalizeImageList.i: CreateVocabulary/NormalizeImageList.cpp.i
+.PHONY : CreateVocabulary/NormalizeImageList.i
+
+# target to preprocess a source file
+CreateVocabulary/NormalizeImageList.cpp.i:
+	$(MAKE) -f CMakeFiles/NormalizeImageList.dir/build.make CMakeFiles/NormalizeImageList.dir/CreateVocabulary/NormalizeImageList.cpp.i
+.PHONY : CreateVocabulary/NormalizeImageList.cpp.i
+
+CreateVocabulary/NormalizeImageList.s: CreateVocabulary/NormalizeImageList.cpp.s
+.PHONY : CreateVocabulary/NormalizeImageList.s
+
+# target to generate assembly for a file
+CreateVocabulary/NormalizeImageList.cpp.s:
+	$(MAKE) -f CMakeFiles/NormalizeImageList.dir/build.make CMakeFiles/NormalizeImageList.dir/CreateVocabulary/NormalizeImageList.cpp.s
+.PHONY : CreateVocabulary/NormalizeImageList.cpp.s
 
 demo/demo.o: demo/demo.cpp.o
 .PHONY : demo/demo.o
@@ -352,8 +426,10 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... CreateVocabulary"
 	@echo "... DBoW2"
 	@echo "... Dependencies"
+	@echo "... NormalizeImageList"
 	@echo "... demo"
 	@echo "... edit_cache"
 	@echo "... install"
@@ -361,6 +437,12 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... CreateVocabulary/CreateVocabulary.o"
+	@echo "... CreateVocabulary/CreateVocabulary.i"
+	@echo "... CreateVocabulary/CreateVocabulary.s"
+	@echo "... CreateVocabulary/NormalizeImageList.o"
+	@echo "... CreateVocabulary/NormalizeImageList.i"
+	@echo "... CreateVocabulary/NormalizeImageList.s"
 	@echo "... demo/demo.o"
 	@echo "... demo/demo.i"
 	@echo "... demo/demo.s"

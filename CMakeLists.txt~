@@ -77,7 +77,7 @@ endif(BUILD_Demo)
 
 if(BUILD_CreateVocabulary)
   add_executable(CreateVocabulary CreateVocabulary/CreateVocabulary.cpp)
-  add_executable(NormalizeImageList CreateVocabulary/NormalizeImageList.cpp)
+  add_executable(Normalize
   target_link_libraries(CreateVocabulary ${PROJECT_NAME} ${OpenCV_LIBS} ${DLib_LIBS})
 endif(BUILD_CreateVOcabulary)
 

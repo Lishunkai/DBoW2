@@ -53,13 +53,48 @@ CMAKE_SOURCE_DIR = /home/bst2017/slam/DBoW2
 CMAKE_BINARY_DIR = /home/bst2017/slam/DBoW2/build
 
 #=============================================================================
+# Target rules for target CMakeFiles/CreateVocabulary.dir
+
+# All Build rule for target.
+CMakeFiles/CreateVocabulary.dir/all: CMakeFiles/DBoW2.dir/all
+	$(MAKE) -f CMakeFiles/CreateVocabulary.dir/build.make CMakeFiles/CreateVocabulary.dir/depend
+	$(MAKE) -f CMakeFiles/CreateVocabulary.dir/build.make CMakeFiles/CreateVocabulary.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/bst2017/slam/DBoW2/build/CMakeFiles  1
+	@echo "Built target CreateVocabulary"
+.PHONY : CMakeFiles/CreateVocabulary.dir/all
+
+# Include target in all.
+all: CMakeFiles/CreateVocabulary.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/CreateVocabulary.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bst2017/slam/DBoW2/build/CMakeFiles 7
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/CreateVocabulary.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bst2017/slam/DBoW2/build/CMakeFiles 0
+.PHONY : CMakeFiles/CreateVocabulary.dir/rule
+
+# Convenience name for target.
+CreateVocabulary: CMakeFiles/CreateVocabulary.dir/rule
+.PHONY : CreateVocabulary
+
+# clean rule for target.
+CMakeFiles/CreateVocabulary.dir/clean:
+	$(MAKE) -f CMakeFiles/CreateVocabulary.dir/build.make CMakeFiles/CreateVocabulary.dir/clean
+.PHONY : CMakeFiles/CreateVocabulary.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/CreateVocabulary.dir/clean
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/DBoW2.dir
 
 # All Build rule for target.
 CMakeFiles/DBoW2.dir/all: CMakeFiles/Dependencies.dir/all
 	$(MAKE) -f CMakeFiles/DBoW2.dir/build.make CMakeFiles/DBoW2.dir/depend
 	$(MAKE) -f CMakeFiles/DBoW2.dir/build.make CMakeFiles/DBoW2.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/bst2017/slam/DBoW2/build/CMakeFiles  1 2 3 4 5 6
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/bst2017/slam/DBoW2/build/CMakeFiles  2 3 4 5 6 7
 	@echo "Built target DBoW2"
 .PHONY : CMakeFiles/DBoW2.dir/all
 
@@ -119,13 +154,48 @@ clean: CMakeFiles/Dependencies.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/NormalizeImageList.dir
+
+# All Build rule for target.
+CMakeFiles/NormalizeImageList.dir/all:
+	$(MAKE) -f CMakeFiles/NormalizeImageList.dir/build.make CMakeFiles/NormalizeImageList.dir/depend
+	$(MAKE) -f CMakeFiles/NormalizeImageList.dir/build.make CMakeFiles/NormalizeImageList.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/bst2017/slam/DBoW2/build/CMakeFiles  8
+	@echo "Built target NormalizeImageList"
+.PHONY : CMakeFiles/NormalizeImageList.dir/all
+
+# Include target in all.
+all: CMakeFiles/NormalizeImageList.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/NormalizeImageList.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bst2017/slam/DBoW2/build/CMakeFiles 1
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/NormalizeImageList.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bst2017/slam/DBoW2/build/CMakeFiles 0
+.PHONY : CMakeFiles/NormalizeImageList.dir/rule
+
+# Convenience name for target.
+NormalizeImageList: CMakeFiles/NormalizeImageList.dir/rule
+.PHONY : NormalizeImageList
+
+# clean rule for target.
+CMakeFiles/NormalizeImageList.dir/clean:
+	$(MAKE) -f CMakeFiles/NormalizeImageList.dir/build.make CMakeFiles/NormalizeImageList.dir/clean
+.PHONY : CMakeFiles/NormalizeImageList.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/NormalizeImageList.dir/clean
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/demo.dir
 
 # All Build rule for target.
 CMakeFiles/demo.dir/all: CMakeFiles/DBoW2.dir/all
 	$(MAKE) -f CMakeFiles/demo.dir/build.make CMakeFiles/demo.dir/depend
 	$(MAKE) -f CMakeFiles/demo.dir/build.make CMakeFiles/demo.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/bst2017/slam/DBoW2/build/CMakeFiles  7
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/bst2017/slam/DBoW2/build/CMakeFiles  9
 	@echo "Built target demo"
 .PHONY : CMakeFiles/demo.dir/all
 

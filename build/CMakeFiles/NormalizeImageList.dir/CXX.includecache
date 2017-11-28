@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/bst2017/slam/DBoW2/CreateVocabulary/NormalizeImageList.cpp
+iostream
+-
+fstream
+-
+string
+-
+
