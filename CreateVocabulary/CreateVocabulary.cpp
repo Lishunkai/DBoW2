@@ -179,9 +179,13 @@ void testVocCreation(const vector<vector<cv::Mat > > &features)
   cin >> structure;
   if(structure == 0)
   {
+    cout << endl << "Please input the name of vocabulary to be stored, including the format." << endl;
+    char VocName[1000];
+    cin >> VocName;
+
     cout << endl << "Saving vocabulary to default format in DBoW2..." << endl;
     // voc.save("Vocabulary.yml.gz");
-    voc.save("Vocabulary.txt");
+    voc.save(VocName);
     cout << "Done" << endl << endl;
 
     cout << "The format of the vocabulary is:" << endl;
@@ -202,9 +206,66 @@ void testVocCreation(const vector<vector<cv::Mat > > &features)
   }
   else if(structure == 1)
   {
-    cout << endl << "Saving vocabulary to ORB_SLAM2 format..." << endl;
-    voc.save_ORB_format("Vocabulary.txt");
-    cout << "Done" << endl << endl;
+    cout << endl << "Please choose the file format:    binary: 0      txt: 1" << endl;
+    int format;
+    cin >> format;
+    
+    if(format == 1)
+    {
+      cout << endl << "Please input the name of vocabulary to be stored, including the format." << endl;
+      char VocName[1000];
+      cin >> VocName;
+      
+      cout << endl << "Saving vocabulary to ORB_SLAM2 format..." << endl;
+      voc.save_ORB_format(VocName); // txt格式
+      cout << "Done" << endl;
+      
+      cout << "Do you also want to save the vocabulary as .bin ?  Yes: 1    No: 0" << endl;
+      int SaveBin;
+      cin >> SaveBin;
+      if(SaveBin == 0)
+        cout << "Mission complished." << endl << endl;
+      else if(SaveBin == 1)
+      {
+        cout << endl << "Please input the name of vocabulary to be stored, including the format." << endl;
+        char VocName[1000];
+        cin >> VocName;
+
+        cout << endl << "Saving vocabulary to ORB_SLAM2 format..." << endl;
+        voc.ORB_saveToBinaryFile(VocName);
+        cout << "Done" << endl << endl;
+      }
+      else
+        cerr << "Invalid input." << endl << endl;
+    }
+    else if(format == 0)
+    {
+      cout << endl << "Please input the name of vocabulary to be stored, including the format." << endl;
+      char VocName[1000];
+      cin >> VocName;
+
+      cout << endl << "Saving vocabulary to ORB_SLAM2 format..." << endl;
+      voc.ORB_saveToBinaryFile(VocName);
+      cout << "Done" << endl << endl;
+
+      cout << "Do you also want to save the vocabulary as .txt ?  Yes: 1    No: 0" << endl;
+      int SaveTxt;
+      cin >> SaveTxt;
+      if(SaveTxt == 0)
+        cout << "Mission complished." << endl << endl;
+      else if(SaveTxt == 1)
+      {
+        cout << endl << "Please input the name of vocabulary to be stored, including the format." << endl;
+        char VocName[1000];
+        cin >> VocName;
+
+        cout << endl << "Saving vocabulary to ORB_SLAM2 format..." << endl;
+        voc.save_ORB_format(VocName);
+        cout << "Done" << endl << endl;
+      }
+    }
+    else
+      cerr << "Invalid input." << endl << endl;
 
     cout << "The format of the vocabulary is:" << endl;
     cout << "K L ScoringType WeightingType" << endl;

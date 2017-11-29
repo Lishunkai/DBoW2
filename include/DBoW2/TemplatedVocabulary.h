@@ -223,6 +223,8 @@ public:
    * @param type new scoring type
    */
   void setScoringType(ScoringType type);
+
+  void ORB_saveToBinaryFile(const std::string &filename) const;
   
   /**
    * Saves the vocabulary into a file
@@ -1341,6 +1343,53 @@ void TemplatedVocabulary<TDescriptor,F>::save_ORB_format(const std::string &file
   save_ORB_format(fs);
   fs.close(); // 只有关闭之后，外部才能访问此文件
 }
+
+// --------------------------------------------------------------------------
+// 保存成二进制文件
+template<class TDescriptor, class F>
+void TemplatedVocabulary<TDescriptor,F>::ORB_saveToBinaryFile(const std::string &filename) const 
+{
+  std::fstream f;
+  f.open(filename.c_str(), std::ios::out|std::ios::binary); // 写入，并写入为二进制格式
+  // ios的这些方式是能够进行组合使用的，以“或”运算（“|”）的方式,例如:
+  // fin.open("test.txt", ios::in|ios::out|ios::binary) 
+  // 关于std::fstream类的使用详见 https://www.cnblogs.com/journal-of-xjx/p/6679663.html，写得非常好
+
+  if(!f.is_open())
+    std::cerr << "Could not open file." << std::endl;
+
+  unsigned int nb_nodes = m_nodes.size();
+  float _weight;
+  // unsigned int size_node = sizeof(m_nodes[0].parent) + F::L*sizeof(char) + sizeof(_weight) + sizeof(bool); //F::L
+  
+  // 函数write()是专门用来写入二进制文件的
+  // 它有两个参数。第一个是指向对象的char型指针, 第二个是对象的大小（字节数）
+  f.write((char*)&m_k, sizeof(m_k)); // k
+  f.write((char*)&m_L, sizeof(m_L)); // L
+  f.write((char*)&m_scoring, sizeof(m_scoring)); // ScoringType
+  f.write((char*)&m_weighting, sizeof(m_weighting)); // WeightingType
+  
+  for(size_t i=1; i<nb_nodes;i++)
+  {
+	  const Node& node = m_nodes[i];
+
+	  f.write((char*)&node.parent, sizeof(node.parent)); // parentId
+
+	  bool is_leaf = node.isLeaf();
+    f.write((char*)&is_leaf, sizeof(is_leaf)); // isLeaf
+
+	  f.write((char*)node.descriptor.data, F::L); // F::L  32个描绘子	  
+  
+    _weight = node.weight;
+    f.write((char*)&_weight, sizeof(_weight)); // weight
+  }
+
+  f.close();
+}
+
+
+
+
 
 // --------------------------------------------------------------------------
 

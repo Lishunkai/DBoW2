@@ -1,5 +1,0 @@
-/home/bst2017/slam/DBoW2/build/CMakeFiles/CreateVocabulary.dir
-/home/bst2017/slam/DBoW2/build/CMakeFiles/DBoW2.dir
-/home/bst2017/slam/DBoW2/build/CMakeFiles/Dependencies.dir
-/home/bst2017/slam/DBoW2/build/CMakeFiles/NormalizeImageList.dir
-/home/bst2017/slam/DBoW2/build/CMakeFiles/demo.dir

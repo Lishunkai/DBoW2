@@ -56,20 +56,43 @@ void NormalizeImageList()
     cout << "(Eg: If the images are restored in '/home/username/DataFiles/..., you only need to input '/home/username/') " << endl;
     cin >> HeadPath;
 
-    ofstream Normalized;
-    Normalized.open("NormalizedImageList.txt",ios::trunc);  //ios::trunc表示在打开文件前将文件清空,由于是写入,文件不存在则创建
-    for(int i=1;i<=NIMAGES;++i)
-    {
-        string ss = ReadLine(i);
+    cout << endl << "Please input the name of image list to be stored, including the format." << endl;
+    char VocName[1000];
+    cin >> VocName;
 
-        // 找到空格并删除该行空格之后所有的内容
-        int pos = ss.find(" ");
-        int length = sizeof(ss) - pos;
-        ss.erase(pos,length);
-        // 注：这里删除、更新的操作不能用string类按下标赋值的方法，那样会出错，无法赋值
+    ofstream Normalized;
+    Normalized.open(VocName,ios::trunc);  //ios::trunc表示在打开文件前将文件清空,由于是写入,文件不存在则创建
+    
+    cout << endl << "How many paths are included in a single line? Press 1 or 2" << endl;
+    int pa;
+    cin >> pa;
+
+    if(pa == 2)
+    {
+      for(int i=1;i<=NIMAGES;++i)
+      {
+          string ss = ReadLine(i);
+
+          // 找到空格并删除该行空格之后所有的内容
+          int pos = ss.find(" ");
+          int length = sizeof(ss) - pos;
+          ss.erase(pos,length);
+          // 注：这里删除、更新的操作不能用string类按下标赋值的方法，那样会出错，无法赋值
         
-        Normalized << HeadPath << ss << '\n'; // 更新每行的内容
+          Normalized << HeadPath << ss << '\n'; // 更新每行的内容
+      }
     }
+    else if(pa == 1)
+    {
+      for(int i=1;i<=NIMAGES;++i)
+      {
+        string ss = ReadLine(i);
+        Normalized << HeadPath << ss << '\n'; // 更新每行的内容
+      }
+    }
+    else
+      cerr << "Invalid input." << endl;
+
     Normalized.close();
     
     cout << "The normalized image list is saved to: /DBoW2/build/" << endl << endl;
