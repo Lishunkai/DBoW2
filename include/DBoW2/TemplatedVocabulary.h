@@ -230,6 +230,8 @@ public:
    */
   void save(const std::string &filename) const;
   
+  void save_ORB_format(const std::string &filename) const;
+
   /**
    * Loads the vocabulary from a file
    * @param filename
@@ -242,7 +244,14 @@ public:
    */
   virtual void save(cv::FileStorage &fs, 
     const std::string &name = "vocabulary") const;
-  
+
+  /** 
+   * 将字典保存为ORB-SLAM2中字典的格式
+   * @param fn node in file storage
+   */
+  virtual void save_ORB_format(std::fstream &fs, 
+    const std::string &name = "vocabulary") const;
+
   /**
    * Loads the vocabulary from a file storage node
    * @param fn first node
@@ -545,10 +554,8 @@ void TemplatedVocabulary<TDescriptor,F>::create(
 
   m_nodes.reserve(expected_nodes); // avoid allocations when creating the tree
   
-  
   std::vector<pDescriptor> features;
   getFeatures(training_features, features);
-
 
   // create root  
   m_nodes.push_back(Node(0)); // root
@@ -561,7 +568,6 @@ void TemplatedVocabulary<TDescriptor,F>::create(
 
   // and set the weight of each node of the tree
   setNodeWeights(training_features);
-  
 }
 
 // --------------------------------------------------------------------------
@@ -1326,6 +1332,19 @@ void TemplatedVocabulary<TDescriptor,F>::save(const std::string &filename) const
 // --------------------------------------------------------------------------
 
 template<class TDescriptor, class F>
+void TemplatedVocabulary<TDescriptor,F>::save_ORB_format(const std::string &filename) const
+{
+  std::fstream fs;
+  fs.open(filename.c_str(),std::ios::out); // 此处不能用std::ios::trunc，否则无法创建。
+  if(!fs.is_open())
+    std::cout << "Could not open file: " << filename << std::endl;
+  save_ORB_format(fs);
+  fs.close(); // 只有关闭之后，外部才能访问此文件
+}
+
+// --------------------------------------------------------------------------
+
+template<class TDescriptor, class F>
 void TemplatedVocabulary<TDescriptor,F>::load(const std::string &filename)
 {
   cv::FileStorage fs(filename.c_str(), cv::FileStorage::READ);
@@ -1337,8 +1356,7 @@ void TemplatedVocabulary<TDescriptor,F>::load(const std::string &filename)
 // --------------------------------------------------------------------------
 
 template<class TDescriptor, class F>
-void TemplatedVocabulary<TDescriptor,F>::save(cv::FileStorage &f,
-  const std::string &name) const
+void TemplatedVocabulary<TDescriptor,F>::save(cv::FileStorage &f, const std::string &name) const
 {
   // Format YAML:
   // vocabulary 
@@ -1404,9 +1422,7 @@ void TemplatedVocabulary<TDescriptor,F>::save(cv::FileStorage &f,
       
       // add to parent list
       if(!child.isLeaf())
-      {
         parents.push_back(*pit);
-      }
     }
   }
   
@@ -1429,6 +1445,48 @@ void TemplatedVocabulary<TDescriptor,F>::save(cv::FileStorage &f,
 
   f << "}";
 
+}
+
+// --------------------------------------------------------------------------
+// 将字典保存成ORB-SLAM2中的字典格式
+template<class TDescriptor, class F>
+void TemplatedVocabulary<TDescriptor,F>::save_ORB_format(std::fstream &f, const std::string &name) const
+{
+  // 第一行的4个参数：K L ScoringType WeightingType
+  f << m_k << " " << m_L << " " << m_scoring << " " << m_weighting <<'\n';
+  
+  // tree
+  std::vector<NodeId> parents, children;
+  std::vector<NodeId>::const_iterator pit;
+
+  parents.push_back(0); // root
+
+  while(!parents.empty())
+  {
+    NodeId pid = parents.back();
+    parents.pop_back();
+
+    const Node& parent = m_nodes[pid];
+    children = parent.children;
+
+    for(pit = children.begin(); pit != children.end(); pit++)
+    {
+      const Node& child = m_nodes[*pit];
+
+      // save node data
+      f << (int)pid << " "; // parentId
+      if(child.isLeaf())
+        f << 1 << " ";
+      else if(!child.isLeaf())
+      {
+        f << 0 << " ";
+        // add to parent list
+        parents.push_back(*pit);
+      }
+      f << F::toString(child.descriptor) << " "; // descriptor
+      f << (double)child.weight << '\n'; // weight
+    }
+  }
 }
 
 // --------------------------------------------------------------------------

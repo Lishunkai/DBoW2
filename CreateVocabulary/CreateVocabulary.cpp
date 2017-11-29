@@ -55,6 +55,9 @@ int main()
 int LoadImageList()
 {
   cout <<"Please set the path to the image list:"<<endl;
+  // 导入规范化后的image list
+  // 若image list中的路径不是标准的，则需用NormalizeImageList.cpp将其规范化。
+
   cin >> ImageList;
   ifstream ImgList;
   ImgList.open(ImageList,ios::in); // C++ 在读取文件的时候文件名必须用char[]，不能用string类
@@ -98,7 +101,7 @@ void loadFeatures(vector<vector<cv::Mat > > &features)
   // cv::ORB orb(500); // opencv 2.4.8版本的写法
                        // 其余参数均为默认值
 
-  cout << "Extracting ORB features. This may take a long time." << endl;
+  cout << "Extracting ORB features. This may take a long time..." << endl;
   for(int i = 1; i <= NIMAGES; ++i)
   {
     string ss=ReadLine(i);
@@ -115,7 +118,7 @@ void loadFeatures(vector<vector<cv::Mat > > &features)
     features.push_back(vector<cv::Mat >());
     changeStructure(descriptors, features.back());
 
-    cout << "Processing " << i << "/" <<NIMAGES << '\r';
+    cout << "Processing " << i << "/" <<NIMAGES << '\r'; // '\r'表示退格到这一行的起点
     fflush(stdout); // 记住用fflush，不然输出会缓冲，会积压在一起
                     // 平时的endl除了有换行功能之外，另一个很重要的功能就是更新数据流，防止缓冲积压
   }
@@ -135,7 +138,7 @@ void testVocCreation(const vector<vector<cv::Mat > > &features)
 {
   // branching factor and depth levels 
   const int k = 10;
-  const int L = 6; // k=10, L=6是ORB_SLAM2中字典的大小
+  const int L = 6; // k=10, L=6是ORB_SLAM2中字典结构的参数
   const WeightingType weight = TF_IDF;
   const ScoringType score = L1_NORM;
 
@@ -148,7 +151,7 @@ void testVocCreation(const vector<vector<cv::Mat > > &features)
    */
   OrbVocabulary voc(k, L, weight, score);
 
-  cout << "Creating a " << k << "^" << L << " vocabulary..." << endl;
+  cout << "Creating a " << k << "^" << L << " vocabulary. This could take a long time..." << endl;
   voc.create(features);
   cout << "Done" << endl;
 
@@ -169,10 +172,48 @@ void testVocCreation(const vector<vector<cv::Mat > > &features)
   //     cout << "Image " << i << " vs Image " << j << ": " << score << endl;
   //   }
   // }
+  
+  cout << "Please choose the data structure of the vocabulary you want to save." << endl;
+  cout << "Default format in DBoW2: 0               ORB_SLAM2 format :1" << endl;
+  int structure;
+  cin >> structure;
+  if(structure == 0)
+  {
+    cout << endl << "Saving vocabulary to default format in DBoW2..." << endl;
+    // voc.save("Vocabulary.yml.gz");
+    voc.save("Vocabulary.txt");
+    cout << "Done" << endl << endl;
 
-  cout << endl << "Saving vocabulary..." << endl;
-  voc.save("Vocabulary.yml.gz");
-  cout << "Done" << endl;
+    cout << "The format of the vocabulary is:" << endl;
+    cout << "vocabulary " << endl;
+    cout << "{" << endl;
+    cout << "   k:" << endl;
+    cout << "   L:" << endl;
+    cout << "   scoringType:" << endl;
+    cout << "   weightingType:" << endl;
+    cout << "   nodes: - { nodeId, parentId, weight, descriptor }" << endl;
+    cout << "          ... ... ... ... ... ... ... ... ... ... ... " << endl;
+    cout << "          ... ... ... ... ... ... ... ... ... ... ... " << endl; 
+    cout << "   words: - { wordId, nodeId }" << endl;
+    cout << "          ... ... ... ... ... ... ... ... ... ... ... " << endl;
+    cout << "          ... ... ... ... ... ... ... ... ... ... ... " << endl;
+    cout << "}" << endl;
+    cout << "*Note: The root node (index 0) is not included in the node vector." << endl << endl;
+  }
+  else if(structure == 1)
+  {
+    cout << endl << "Saving vocabulary to ORB_SLAM2 format..." << endl;
+    voc.save_ORB_format("Vocabulary.txt");
+    cout << "Done" << endl << endl;
+
+    cout << "The format of the vocabulary is:" << endl;
+    cout << "K L ScoringType WeightingType" << endl;
+    cout << "pid(parentId)  nIsLeaf  {32 descriptors}  weight" << endl;
+    cout << " ... ... ... ... ... ... ... ... ... ... ... ..." << endl;
+    cout << " ... ... ... ... ... ... ... ... ... ... ... ..." << endl << endl;
+  }
+  else
+    cerr << "Invalid input." << endl;
 }
 
 void wait()
