@@ -1455,38 +1455,55 @@ void TemplatedVocabulary<TDescriptor,F>::save_ORB_format(std::fstream &f, const 
   // 第一行的4个参数：K L ScoringType WeightingType
   f << m_k << " " << m_L << " " << m_scoring << " " << m_weighting <<'\n';
   
-  // tree
-  std::vector<NodeId> parents, children;
-  std::vector<NodeId>::const_iterator pit;
-
-  parents.push_back(0); // root
-
-  while(!parents.empty())
+  // ORB-SLAM2 的 TemplatedVocabulary.h中saveToTextFile函数中的定义
+  for(size_t i=1; i<m_nodes.size();i++)
   {
-    NodeId pid = parents.back();
-    parents.pop_back();
+    const Node& node = m_nodes[i];
 
-    const Node& parent = m_nodes[pid];
-    children = parent.children;
+    f << node.parent << " ";
+    if(node.isLeaf())
+      f << 1 << " ";
+    else
+      f << 0 << " ";
 
-    for(pit = children.begin(); pit != children.end(); pit++)
-    {
-      const Node& child = m_nodes[*pit];
-
-      // save node data
-      f << (int)pid << " "; // parentId
-      if(child.isLeaf())
-        f << 1 << " ";
-      else if(!child.isLeaf())
-      {
-        f << 0 << " ";
-        // add to parent list
-        parents.push_back(*pit);
-      }
-      f << F::toString(child.descriptor) << " "; // descriptor
-      f << (double)child.weight << '\n'; // weight
-    }
+    f << F::toString(node.descriptor) << " " << (double)node.weight << std::endl;
   }
+ 
+  // ------------------------------------------------------
+
+  // // 根据自己的理解写的格式转换，应该和上面的结果是一样的
+  // // tree
+  // std::vector<NodeId> parents, children;
+  // std::vector<NodeId>::const_iterator pit;
+
+  // parents.push_back(0); // root
+
+  // while(!parents.empty())
+  // {
+  //   NodeId pid = parents.back();
+  //   parents.pop_back();
+
+  //   const Node& parent = m_nodes[pid];
+  //   children = parent.children;
+
+  //   for(pit = children.begin(); pit != children.end(); pit++)
+  //   {
+  //     const Node& child = m_nodes[*pit];
+
+  //     // save node data
+  //     f << (int)pid << " "; // parentId
+  //     if(child.isLeaf())
+  //       f << 1 << " ";
+  //     else if(!child.isLeaf())
+  //     {
+  //       f << 0 << " ";
+  //       // add to parent list
+  //       parents.push_back(*pit);
+  //     }
+  //     f << F::toString(child.descriptor) << " "; // descriptor
+  //     f << (double)child.weight << '\n'; // weight
+  //   }
+  // }
 }
 
 // --------------------------------------------------------------------------
