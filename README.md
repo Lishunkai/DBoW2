@@ -1,6 +1,9 @@
 DBoW2
 =====
 
+I use the DBoW2 to create ORB Vocabulary, which will be used in ORB_SLAM2. After compiling, the .exe document can create a vocabulary according to the images for training you provide. You can choose to save the vocabulary in .bin or .txt format. Since loading the vocabulary usually takes a long time (especially for embedded platforms) and the file size is extremely big, the .bin format vocabulary will remarkably accelerate the loading speed and compress the file.
+
+
 DBoW2 is an improved version of the DBow library, an open source C++ library for indexing and converting images into a bag-of-word representation. It implements a hierarchical tree for approximating nearest neighbours in the image feature space and creating a visual vocabulary. DBoW2 also implements an image database with inverted and direct files to index images and enabling quick queries and feature comparisons. The main differences with the previous DBow library are:
 
   * DBoW2 classes are templated, so it can work with any type of descriptor.
