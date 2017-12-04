@@ -1364,6 +1364,10 @@ void TemplatedVocabulary<TDescriptor,F>::ORB_saveToBinaryFile(const std::string 
   
   // 函数write()是专门用来写入二进制文件的
   // 它有两个参数。第一个是指向对象的char型指针, 第二个是对象的大小（字节数）
+  unsigned int size_node = sizeof(m_nodes[0].parent) + F::L*sizeof(char) + sizeof(_weight) + sizeof(bool); //F::L
+  f.write((char*)&nb_nodes, sizeof(nb_nodes)); // 先写入节点参数
+  f.write((char*)&size_node, sizeof(size_node));
+  
   f.write((char*)&m_k, sizeof(m_k)); // k
   f.write((char*)&m_L, sizeof(m_L)); // L
   f.write((char*)&m_scoring, sizeof(m_scoring)); // ScoringType
@@ -1373,15 +1377,16 @@ void TemplatedVocabulary<TDescriptor,F>::ORB_saveToBinaryFile(const std::string 
   {
 	  const Node& node = m_nodes[i];
 
+    // 为了和ORB-SLAM2中的二进制读入程序相对应，这里储存的文件结构略有修改。
 	  f.write((char*)&node.parent, sizeof(node.parent)); // parentId
-
-	  bool is_leaf = node.isLeaf();
-    f.write((char*)&is_leaf, sizeof(is_leaf)); // isLeaf
 
 	  f.write((char*)node.descriptor.data, F::L); // F::L  32个描绘子	  
   
     _weight = node.weight;
     f.write((char*)&_weight, sizeof(_weight)); // weight
+
+    bool is_leaf = node.isLeaf();
+    f.write((char*)&is_leaf, sizeof(is_leaf)); // isLeaf
   }
 
   f.close();
@@ -1497,7 +1502,7 @@ void TemplatedVocabulary<TDescriptor,F>::save(cv::FileStorage &f, const std::str
 }
 
 // --------------------------------------------------------------------------
-// 将字典保存成ORB-SLAM2中的字典格式
+// 将字典保存成ORB-SLAM2中的字典格式，并保存成txt文件
 template<class TDescriptor, class F>
 void TemplatedVocabulary<TDescriptor,F>::save_ORB_format(std::fstream &f, const std::string &name) const
 {
